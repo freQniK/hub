@@ -42,7 +42,7 @@ func ParamChanges(_ *rand.Rand) []simulationtypes.ParamChange {
 		),
 		simulation.NewSimParamChange(
 			types.ModuleName,
-			string(types.KeyMaxGigabytePrices),
+			string(types.KeyGigabyteMaxPrices),
 			func(r *rand.Rand) string {
 				return sdk.NewCoins(
 					sdk.NewInt64Coin(
@@ -54,7 +54,7 @@ func ParamChanges(_ *rand.Rand) []simulationtypes.ParamChange {
 		),
 		simulation.NewSimParamChange(
 			types.ModuleName,
-			string(types.KeyMinGigabytePrices),
+			string(types.KeyGigabyteMinPrices),
 			func(r *rand.Rand) string {
 				return sdk.NewCoins(
 					sdk.NewInt64Coin(
@@ -66,7 +66,7 @@ func ParamChanges(_ *rand.Rand) []simulationtypes.ParamChange {
 		),
 		simulation.NewSimParamChange(
 			types.ModuleName,
-			string(types.KeyMaxHourlyPrices),
+			string(types.KeyHourlyMaxPrices),
 			func(r *rand.Rand) string {
 				return sdk.NewCoins(
 					sdk.NewInt64Coin(
@@ -78,7 +78,7 @@ func ParamChanges(_ *rand.Rand) []simulationtypes.ParamChange {
 		),
 		simulation.NewSimParamChange(
 			types.ModuleName,
-			string(types.KeyMinHourlyPrices),
+			string(types.KeyHourlyMinPrices),
 			func(r *rand.Rand) string {
 				return sdk.NewCoins(
 					sdk.NewInt64Coin(

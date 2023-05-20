@@ -32,14 +32,14 @@ const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 type Params struct {
 	Deposit           types.Coin                               `protobuf:"bytes,1,opt,name=deposit,proto3" json:"deposit"`
 	ExpiryDuration    time.Duration                            `protobuf:"bytes,2,opt,name=expiry_duration,json=expiryDuration,proto3,stdduration" json:"expiry_duration"`
-	MaxGigabytePrices github_com_cosmos_cosmos_sdk_types.Coins `protobuf:"bytes,3,rep,name=max_gigabyte_prices,json=maxGigabytePrices,proto3,castrepeated=github.com/cosmos/cosmos-sdk/types.Coins" json:"max_gigabyte_prices"`
-	MinGigabytePrices github_com_cosmos_cosmos_sdk_types.Coins `protobuf:"bytes,4,rep,name=min_gigabyte_prices,json=minGigabytePrices,proto3,castrepeated=github.com/cosmos/cosmos-sdk/types.Coins" json:"min_gigabyte_prices"`
-	MaxHourlyPrices   github_com_cosmos_cosmos_sdk_types.Coins `protobuf:"bytes,5,rep,name=max_hourly_prices,json=maxHourlyPrices,proto3,castrepeated=github.com/cosmos/cosmos-sdk/types.Coins" json:"max_hourly_prices"`
-	MinHourlyPrices   github_com_cosmos_cosmos_sdk_types.Coins `protobuf:"bytes,6,rep,name=min_hourly_prices,json=minHourlyPrices,proto3,castrepeated=github.com/cosmos/cosmos-sdk/types.Coins" json:"min_hourly_prices"`
-	MaxLeaseHours     int64                                    `protobuf:"varint,7,opt,name=max_lease_hours,json=maxLeaseHours,proto3" json:"max_lease_hours,omitempty"`
-	MinLeaseHours     int64                                    `protobuf:"varint,8,opt,name=min_lease_hours,json=minLeaseHours,proto3" json:"min_lease_hours,omitempty"`
-	MaxLeaseGigabytes int64                                    `protobuf:"varint,9,opt,name=max_lease_gigabytes,json=maxLeaseGigabytes,proto3" json:"max_lease_gigabytes,omitempty"`
-	MinLeaseGigabytes int64                                    `protobuf:"varint,10,opt,name=min_lease_gigabytes,json=minLeaseGigabytes,proto3" json:"min_lease_gigabytes,omitempty"`
+	GigabyteMaxPrices github_com_cosmos_cosmos_sdk_types.Coins `protobuf:"bytes,3,rep,name=gigabyte_max_prices,json=gigabyteMaxPrices,proto3,castrepeated=github.com/cosmos/cosmos-sdk/types.Coins" json:"gigabyte_max_prices"`
+	GigabyteMinPrices github_com_cosmos_cosmos_sdk_types.Coins `protobuf:"bytes,4,rep,name=gigabyte_min_prices,json=gigabyteMinPrices,proto3,castrepeated=github.com/cosmos/cosmos-sdk/types.Coins" json:"gigabyte_min_prices"`
+	HourlyMaxPrices   github_com_cosmos_cosmos_sdk_types.Coins `protobuf:"bytes,5,rep,name=hourly_max_prices,json=hourlyMaxPrices,proto3,castrepeated=github.com/cosmos/cosmos-sdk/types.Coins" json:"hourly_max_prices"`
+	HourlyMinPrices   github_com_cosmos_cosmos_sdk_types.Coins `protobuf:"bytes,6,rep,name=hourly_min_prices,json=hourlyMinPrices,proto3,castrepeated=github.com/cosmos/cosmos-sdk/types.Coins" json:"hourly_min_prices"`
+	LeaseMaxGigabytes int64                                    `protobuf:"varint,7,opt,name=lease_max_gigabytes,json=leaseMaxGigabytes,proto3" json:"lease_max_gigabytes,omitempty"`
+	LeaseMinGigabytes int64                                    `protobuf:"varint,8,opt,name=lease_min_gigabytes,json=leaseMinGigabytes,proto3" json:"lease_min_gigabytes,omitempty"`
+	LeaseMaxHours     int64                                    `protobuf:"varint,9,opt,name=lease_max_hours,json=leaseMaxHours,proto3" json:"lease_max_hours,omitempty"`
+	LeaseMinHours     int64                                    `protobuf:"varint,10,opt,name=lease_min_hours,json=leaseMinHours,proto3" json:"lease_min_hours,omitempty"`
 	RevenueShare      github_com_cosmos_cosmos_sdk_types.Dec   `protobuf:"bytes,11,opt,name=revenue_share,json=revenueShare,proto3,customtype=github.com/cosmos/cosmos-sdk/types.Dec" json:"revenue_share"`
 }
 
@@ -83,39 +83,39 @@ func init() {
 func init() { proto.RegisterFile("sentinel/node/v2/params.proto", fileDescriptor_02f1279255e9f358) }
 
 var fileDescriptor_02f1279255e9f358 = []byte{
-	// 504 bytes of a gzipped FileDescriptorProto
+	// 498 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xb4, 0x94, 0x3f, 0x6f, 0xd3, 0x40,
-	0x18, 0x87, 0x6d, 0x5a, 0x92, 0xf6, 0x4a, 0x29, 0x0d, 0x0c, 0xa6, 0x12, 0x97, 0x88, 0xa1, 0xca,
-	0x92, 0x3b, 0x1a, 0x26, 0xd6, 0x50, 0x09, 0x86, 0x4a, 0x54, 0xee, 0xc6, 0x62, 0x9d, 0x9d, 0x8b,
-	0x73, 0xc2, 0xbe, 0xb3, 0x7c, 0x76, 0x70, 0xc4, 0xc6, 0x27, 0x60, 0xe4, 0x23, 0x20, 0x3e, 0x49,
-	0xc6, 0x8e, 0x88, 0xa1, 0x85, 0xe4, 0x8b, 0xa0, 0xfb, 0x47, 0xd3, 0x22, 0x21, 0x06, 0x3a, 0xe5,
-	0x72, 0xf7, 0xbc, 0xbf, 0xe7, 0xd5, 0x6b, 0xfb, 0xc0, 0x13, 0x49, 0x79, 0xc5, 0x38, 0xcd, 0x30,
-	0x17, 0x63, 0x8a, 0x67, 0x43, 0x5c, 0x90, 0x92, 0xe4, 0x12, 0x15, 0xa5, 0xa8, 0x44, 0xe7, 0x81,
-	0x3b, 0x46, 0xea, 0x18, 0xcd, 0x86, 0x07, 0x30, 0x11, 0x32, 0x17, 0x12, 0xc7, 0x44, 0x52, 0x3c,
-	0x3b, 0x8a, 0x69, 0x45, 0x8e, 0x70, 0x22, 0x18, 0x37, 0x15, 0x07, 0x8f, 0x52, 0x91, 0x0a, 0xbd,
-	0xc4, 0x6a, 0x65, 0x77, 0x61, 0x2a, 0x44, 0x9a, 0x51, 0xac, 0xff, 0xc5, 0xf5, 0x04, 0x8f, 0xeb,
-	0x92, 0x54, 0x4c, 0xd8, 0xaa, 0xa7, 0x1f, 0xdb, 0xa0, 0x75, 0xaa, 0xc5, 0x9d, 0x17, 0xa0, 0x3d,
-	0xa6, 0x85, 0x90, 0xac, 0x0a, 0xfc, 0x9e, 0xdf, 0xdf, 0x19, 0x3e, 0x46, 0x46, 0x89, 0x94, 0x12,
-	0x59, 0x25, 0x7a, 0x29, 0x18, 0x1f, 0x6d, 0x2e, 0x2e, 0xba, 0x5e, 0xe8, 0xf8, 0xce, 0x09, 0xd8,
-	0xa3, 0x4d, 0xc1, 0xca, 0x79, 0xe4, 0xe2, 0x83, 0x3b, 0x36, 0xc2, 0xf8, 0x91, 0xf3, 0xa3, 0x63,
-	0x0b, 0x8c, 0xb6, 0x54, 0xc4, 0xe7, 0xcb, 0xae, 0x1f, 0xde, 0x37, 0xb5, 0xee, 0xa4, 0xf3, 0x01,
-	0x3c, 0xcc, 0x49, 0x13, 0xa5, 0x2c, 0x25, 0xf1, 0xbc, 0xa2, 0x51, 0x51, 0xb2, 0x84, 0xca, 0x60,
-	0xa3, 0xb7, 0xf1, 0xf7, 0xa6, 0x9e, 0xa9, 0xc4, 0xaf, 0x97, 0xdd, 0x7e, 0xca, 0xaa, 0x69, 0x1d,
-	0xa3, 0x44, 0xe4, 0xd8, 0x0e, 0xcd, 0xfc, 0x0c, 0xe4, 0xf8, 0x1d, 0xae, 0xe6, 0x05, 0x95, 0xba,
-	0x40, 0x86, 0xfb, 0x39, 0x69, 0x5e, 0x59, 0xcd, 0xa9, 0xb6, 0x68, 0x39, 0xe3, 0x7f, 0xc8, 0x37,
-	0x6f, 0x43, 0xce, 0xf8, 0x0d, 0xf9, 0x7b, 0xa0, 0x3a, 0x8a, 0xa6, 0xa2, 0x2e, 0xb3, 0xb9, 0x53,
-	0xdf, 0xfd, 0xff, 0xea, 0xbd, 0x9c, 0x34, 0xaf, 0xb5, 0x64, 0x4d, 0xcc, 0xf8, 0x0d, 0x71, 0xeb,
-	0x36, 0xc4, 0x8c, 0x5f, 0x13, 0x1f, 0x02, 0xd5, 0x4b, 0x94, 0x51, 0x22, 0xa9, 0xd6, 0xcb, 0xa0,
-	0xdd, 0xf3, 0xfb, 0x1b, 0xe1, 0x6e, 0x4e, 0x9a, 0x13, 0xb5, 0xab, 0x70, 0xc3, 0x31, 0x7e, 0x8d,
-	0xdb, 0xb2, 0x1c, 0xe3, 0x6b, 0x1c, 0x32, 0xef, 0x8e, 0xe1, 0xdc, 0x43, 0x94, 0xc1, 0xb6, 0x66,
-	0xf7, 0x5d, 0xa6, 0x1b, 0xbb, 0xe1, 0x7f, 0xe7, 0x5e, 0xf1, 0xc0, 0xf2, 0x36, 0xfb, 0x8a, 0x3f,
-	0x03, 0xbb, 0x25, 0x9d, 0x51, 0x5e, 0xd3, 0x48, 0x4e, 0x49, 0x49, 0x83, 0x9d, 0x9e, 0xdf, 0xdf,
-	0x1e, 0x21, 0x35, 0x89, 0xef, 0x17, 0xdd, 0xc3, 0x7f, 0x98, 0xc4, 0x31, 0x4d, 0xc2, 0x7b, 0x36,
-	0xe4, 0x4c, 0x65, 0x8c, 0xde, 0x2c, 0x7e, 0x42, 0xef, 0xcb, 0x12, 0x7a, 0x8b, 0x25, 0xf4, 0xcf,
-	0x97, 0xd0, 0xff, 0xb1, 0x84, 0xfe, 0xa7, 0x15, 0xf4, 0xce, 0x57, 0xd0, 0xfb, 0xb6, 0x82, 0xde,
-	0xdb, 0xc1, 0x5a, 0xae, 0xbb, 0x19, 0x06, 0x62, 0x32, 0x61, 0x09, 0x23, 0x19, 0x9e, 0xd6, 0x31,
-	0x6e, 0xcc, 0x3d, 0xa2, 0x15, 0x71, 0x4b, 0x7f, 0x6e, 0xcf, 0x7f, 0x05, 0x00, 0x00, 0xff, 0xff,
-	0x2c, 0x0b, 0xfb, 0xc0, 0x65, 0x04, 0x00, 0x00,
+	0x18, 0xc6, 0x6d, 0x5a, 0x92, 0xf6, 0x4a, 0x09, 0x49, 0x19, 0x4c, 0x25, 0x2e, 0x11, 0x43, 0x95,
+	0x25, 0x77, 0x34, 0x4c, 0xac, 0xa1, 0x12, 0x0c, 0x54, 0x54, 0xee, 0xc6, 0x12, 0x9d, 0x9d, 0x8b,
+	0x73, 0xc2, 0xb9, 0xb3, 0x7c, 0x76, 0x70, 0xc4, 0xc6, 0x27, 0x60, 0xe4, 0x23, 0x20, 0x3e, 0x49,
+	0xc6, 0x8e, 0x88, 0xa1, 0x85, 0xe4, 0x8b, 0xa0, 0xfb, 0x47, 0xcc, 0x82, 0x18, 0xe8, 0xe4, 0xf3,
+	0x3d, 0xcf, 0xfb, 0xfc, 0xfc, 0xbe, 0xd6, 0x1d, 0x78, 0x2c, 0x29, 0x2f, 0x18, 0xa7, 0x29, 0xe6,
+	0x62, 0x42, 0xf1, 0x62, 0x88, 0x33, 0x92, 0x93, 0xb9, 0x44, 0x59, 0x2e, 0x0a, 0xd1, 0x79, 0xe0,
+	0x64, 0xa4, 0x64, 0xb4, 0x18, 0x1e, 0xc3, 0x58, 0xc8, 0xb9, 0x90, 0x38, 0x22, 0x92, 0xe2, 0xc5,
+	0x69, 0x44, 0x0b, 0x72, 0x8a, 0x63, 0xc1, 0xb8, 0xa9, 0x38, 0x7e, 0x98, 0x88, 0x44, 0xe8, 0x25,
+	0x56, 0x2b, 0xbb, 0x0b, 0x13, 0x21, 0x92, 0x94, 0x62, 0xfd, 0x16, 0x95, 0x53, 0x3c, 0x29, 0x73,
+	0x52, 0x30, 0x61, 0xab, 0x9e, 0x7c, 0x6c, 0x82, 0xc6, 0x85, 0x06, 0x77, 0x9e, 0x83, 0xe6, 0x84,
+	0x66, 0x42, 0xb2, 0x22, 0xf0, 0x7b, 0x7e, 0xff, 0x60, 0xf8, 0x08, 0x19, 0x24, 0x52, 0x48, 0x64,
+	0x91, 0xe8, 0x85, 0x60, 0x7c, 0xb4, 0xbb, 0xba, 0xee, 0x7a, 0xa1, 0xf3, 0x77, 0x5e, 0x83, 0x16,
+	0xad, 0x32, 0x96, 0x2f, 0xc7, 0x2e, 0x3e, 0xb8, 0x63, 0x23, 0x0c, 0x1f, 0x39, 0x3e, 0x3a, 0xb3,
+	0x86, 0xd1, 0x9e, 0x8a, 0xf8, 0x7c, 0xd3, 0xf5, 0xc3, 0xfb, 0xa6, 0xd6, 0x29, 0x9d, 0x0f, 0xe0,
+	0x28, 0x61, 0x09, 0x89, 0x96, 0x05, 0x1d, 0xcf, 0x49, 0x35, 0xce, 0x72, 0x16, 0x53, 0x19, 0xec,
+	0xf4, 0x76, 0xfe, 0xfe, 0x51, 0x4f, 0x55, 0xe2, 0xd7, 0x9b, 0x6e, 0x3f, 0x61, 0xc5, 0xac, 0x8c,
+	0x50, 0x2c, 0xe6, 0xd8, 0x0e, 0xcd, 0x3c, 0x06, 0x72, 0xf2, 0x0e, 0x17, 0xcb, 0x8c, 0x4a, 0x5d,
+	0x20, 0xc3, 0xb6, 0xe3, 0x9c, 0x93, 0xea, 0x42, 0x53, 0xfe, 0x84, 0x33, 0xee, 0xe0, 0xbb, 0xb7,
+	0x09, 0x67, 0xdc, 0xc2, 0xdf, 0x83, 0xf6, 0x4c, 0x94, 0x79, 0xba, 0xac, 0xf7, 0x7d, 0xf7, 0xff,
+	0xa3, 0x5b, 0x86, 0xb2, 0xed, 0xba, 0x06, 0xde, 0xf6, 0xdc, 0xb8, 0x3d, 0xf0, 0xef, 0x8e, 0x11,
+	0x38, 0x4a, 0x29, 0x91, 0xe6, 0x47, 0xbb, 0x81, 0xc8, 0xa0, 0xd9, 0xf3, 0xfb, 0x3b, 0x61, 0x5b,
+	0x4b, 0xe7, 0xa4, 0x7a, 0xe9, 0x84, 0x9a, 0x9f, 0xf1, 0x9a, 0x7f, 0xaf, 0xee, 0x67, 0x7c, 0xeb,
+	0x3f, 0x01, 0xad, 0x6d, 0xbe, 0x82, 0xcb, 0x60, 0x5f, 0x7b, 0x0f, 0x5d, 0xf6, 0x2b, 0xb5, 0x59,
+	0xf3, 0x31, 0x6e, 0x7d, 0xa0, 0xee, 0x63, 0xdc, 0xf8, 0x2e, 0xc1, 0x61, 0x4e, 0x17, 0x94, 0x97,
+	0x74, 0x2c, 0x67, 0x24, 0xa7, 0xc1, 0x41, 0xcf, 0xef, 0xef, 0x8f, 0x90, 0x9a, 0xc4, 0xf7, 0xeb,
+	0xee, 0xc9, 0x3f, 0x4c, 0xe2, 0x8c, 0xc6, 0xe1, 0x3d, 0x1b, 0x72, 0xa9, 0x32, 0x46, 0x6f, 0x56,
+	0x3f, 0xa1, 0xf7, 0x65, 0x0d, 0xbd, 0xd5, 0x1a, 0xfa, 0x57, 0x6b, 0xe8, 0xff, 0x58, 0x43, 0xff,
+	0xd3, 0x06, 0x7a, 0x57, 0x1b, 0xe8, 0x7d, 0xdb, 0x40, 0xef, 0xed, 0xa0, 0x96, 0xeb, 0x6e, 0x86,
+	0x81, 0x98, 0x4e, 0x59, 0xcc, 0x48, 0x8a, 0x67, 0x65, 0x84, 0x2b, 0x73, 0x8f, 0x68, 0x44, 0xd4,
+	0xd0, 0xc7, 0xed, 0xd9, 0xaf, 0x00, 0x00, 0x00, 0xff, 0xff, 0x2f, 0xef, 0x52, 0x09, 0x65, 0x04,
+	0x00, 0x00,
 }
 
 func (m *Params) Marshal() (dAtA []byte, err error) {
@@ -148,30 +148,30 @@ func (m *Params) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	}
 	i--
 	dAtA[i] = 0x5a
-	if m.MinLeaseGigabytes != 0 {
-		i = encodeVarintParams(dAtA, i, uint64(m.MinLeaseGigabytes))
+	if m.LeaseMinHours != 0 {
+		i = encodeVarintParams(dAtA, i, uint64(m.LeaseMinHours))
 		i--
 		dAtA[i] = 0x50
 	}
-	if m.MaxLeaseGigabytes != 0 {
-		i = encodeVarintParams(dAtA, i, uint64(m.MaxLeaseGigabytes))
+	if m.LeaseMaxHours != 0 {
+		i = encodeVarintParams(dAtA, i, uint64(m.LeaseMaxHours))
 		i--
 		dAtA[i] = 0x48
 	}
-	if m.MinLeaseHours != 0 {
-		i = encodeVarintParams(dAtA, i, uint64(m.MinLeaseHours))
+	if m.LeaseMinGigabytes != 0 {
+		i = encodeVarintParams(dAtA, i, uint64(m.LeaseMinGigabytes))
 		i--
 		dAtA[i] = 0x40
 	}
-	if m.MaxLeaseHours != 0 {
-		i = encodeVarintParams(dAtA, i, uint64(m.MaxLeaseHours))
+	if m.LeaseMaxGigabytes != 0 {
+		i = encodeVarintParams(dAtA, i, uint64(m.LeaseMaxGigabytes))
 		i--
 		dAtA[i] = 0x38
 	}
-	if len(m.MinHourlyPrices) > 0 {
-		for iNdEx := len(m.MinHourlyPrices) - 1; iNdEx >= 0; iNdEx-- {
+	if len(m.HourlyMinPrices) > 0 {
+		for iNdEx := len(m.HourlyMinPrices) - 1; iNdEx >= 0; iNdEx-- {
 			{
-				size, err := m.MinHourlyPrices[iNdEx].MarshalToSizedBuffer(dAtA[:i])
+				size, err := m.HourlyMinPrices[iNdEx].MarshalToSizedBuffer(dAtA[:i])
 				if err != nil {
 					return 0, err
 				}
@@ -182,10 +182,10 @@ func (m *Params) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 			dAtA[i] = 0x32
 		}
 	}
-	if len(m.MaxHourlyPrices) > 0 {
-		for iNdEx := len(m.MaxHourlyPrices) - 1; iNdEx >= 0; iNdEx-- {
+	if len(m.HourlyMaxPrices) > 0 {
+		for iNdEx := len(m.HourlyMaxPrices) - 1; iNdEx >= 0; iNdEx-- {
 			{
-				size, err := m.MaxHourlyPrices[iNdEx].MarshalToSizedBuffer(dAtA[:i])
+				size, err := m.HourlyMaxPrices[iNdEx].MarshalToSizedBuffer(dAtA[:i])
 				if err != nil {
 					return 0, err
 				}
@@ -196,10 +196,10 @@ func (m *Params) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 			dAtA[i] = 0x2a
 		}
 	}
-	if len(m.MinGigabytePrices) > 0 {
-		for iNdEx := len(m.MinGigabytePrices) - 1; iNdEx >= 0; iNdEx-- {
+	if len(m.GigabyteMinPrices) > 0 {
+		for iNdEx := len(m.GigabyteMinPrices) - 1; iNdEx >= 0; iNdEx-- {
 			{
-				size, err := m.MinGigabytePrices[iNdEx].MarshalToSizedBuffer(dAtA[:i])
+				size, err := m.GigabyteMinPrices[iNdEx].MarshalToSizedBuffer(dAtA[:i])
 				if err != nil {
 					return 0, err
 				}
@@ -210,10 +210,10 @@ func (m *Params) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 			dAtA[i] = 0x22
 		}
 	}
-	if len(m.MaxGigabytePrices) > 0 {
-		for iNdEx := len(m.MaxGigabytePrices) - 1; iNdEx >= 0; iNdEx-- {
+	if len(m.GigabyteMaxPrices) > 0 {
+		for iNdEx := len(m.GigabyteMaxPrices) - 1; iNdEx >= 0; iNdEx-- {
 			{
-				size, err := m.MaxGigabytePrices[iNdEx].MarshalToSizedBuffer(dAtA[:i])
+				size, err := m.GigabyteMaxPrices[iNdEx].MarshalToSizedBuffer(dAtA[:i])
 				if err != nil {
 					return 0, err
 				}
@@ -266,41 +266,41 @@ func (m *Params) Size() (n int) {
 	n += 1 + l + sovParams(uint64(l))
 	l = github_com_gogo_protobuf_types.SizeOfStdDuration(m.ExpiryDuration)
 	n += 1 + l + sovParams(uint64(l))
-	if len(m.MaxGigabytePrices) > 0 {
-		for _, e := range m.MaxGigabytePrices {
+	if len(m.GigabyteMaxPrices) > 0 {
+		for _, e := range m.GigabyteMaxPrices {
 			l = e.Size()
 			n += 1 + l + sovParams(uint64(l))
 		}
 	}
-	if len(m.MinGigabytePrices) > 0 {
-		for _, e := range m.MinGigabytePrices {
+	if len(m.GigabyteMinPrices) > 0 {
+		for _, e := range m.GigabyteMinPrices {
 			l = e.Size()
 			n += 1 + l + sovParams(uint64(l))
 		}
 	}
-	if len(m.MaxHourlyPrices) > 0 {
-		for _, e := range m.MaxHourlyPrices {
+	if len(m.HourlyMaxPrices) > 0 {
+		for _, e := range m.HourlyMaxPrices {
 			l = e.Size()
 			n += 1 + l + sovParams(uint64(l))
 		}
 	}
-	if len(m.MinHourlyPrices) > 0 {
-		for _, e := range m.MinHourlyPrices {
+	if len(m.HourlyMinPrices) > 0 {
+		for _, e := range m.HourlyMinPrices {
 			l = e.Size()
 			n += 1 + l + sovParams(uint64(l))
 		}
 	}
-	if m.MaxLeaseHours != 0 {
-		n += 1 + sovParams(uint64(m.MaxLeaseHours))
+	if m.LeaseMaxGigabytes != 0 {
+		n += 1 + sovParams(uint64(m.LeaseMaxGigabytes))
 	}
-	if m.MinLeaseHours != 0 {
-		n += 1 + sovParams(uint64(m.MinLeaseHours))
+	if m.LeaseMinGigabytes != 0 {
+		n += 1 + sovParams(uint64(m.LeaseMinGigabytes))
 	}
-	if m.MaxLeaseGigabytes != 0 {
-		n += 1 + sovParams(uint64(m.MaxLeaseGigabytes))
+	if m.LeaseMaxHours != 0 {
+		n += 1 + sovParams(uint64(m.LeaseMaxHours))
 	}
-	if m.MinLeaseGigabytes != 0 {
-		n += 1 + sovParams(uint64(m.MinLeaseGigabytes))
+	if m.LeaseMinHours != 0 {
+		n += 1 + sovParams(uint64(m.LeaseMinHours))
 	}
 	l = m.RevenueShare.Size()
 	n += 1 + l + sovParams(uint64(l))
@@ -410,7 +410,7 @@ func (m *Params) Unmarshal(dAtA []byte) error {
 			iNdEx = postIndex
 		case 3:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field MaxGigabytePrices", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field GigabyteMaxPrices", wireType)
 			}
 			var msglen int
 			for shift := uint(0); ; shift += 7 {
@@ -437,14 +437,14 @@ func (m *Params) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.MaxGigabytePrices = append(m.MaxGigabytePrices, types.Coin{})
-			if err := m.MaxGigabytePrices[len(m.MaxGigabytePrices)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+			m.GigabyteMaxPrices = append(m.GigabyteMaxPrices, types.Coin{})
+			if err := m.GigabyteMaxPrices[len(m.GigabyteMaxPrices)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex
 		case 4:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field MinGigabytePrices", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field GigabyteMinPrices", wireType)
 			}
 			var msglen int
 			for shift := uint(0); ; shift += 7 {
@@ -471,14 +471,14 @@ func (m *Params) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.MinGigabytePrices = append(m.MinGigabytePrices, types.Coin{})
-			if err := m.MinGigabytePrices[len(m.MinGigabytePrices)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+			m.GigabyteMinPrices = append(m.GigabyteMinPrices, types.Coin{})
+			if err := m.GigabyteMinPrices[len(m.GigabyteMinPrices)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex
 		case 5:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field MaxHourlyPrices", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field HourlyMaxPrices", wireType)
 			}
 			var msglen int
 			for shift := uint(0); ; shift += 7 {
@@ -505,14 +505,14 @@ func (m *Params) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.MaxHourlyPrices = append(m.MaxHourlyPrices, types.Coin{})
-			if err := m.MaxHourlyPrices[len(m.MaxHourlyPrices)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+			m.HourlyMaxPrices = append(m.HourlyMaxPrices, types.Coin{})
+			if err := m.HourlyMaxPrices[len(m.HourlyMaxPrices)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex
 		case 6:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field MinHourlyPrices", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field HourlyMinPrices", wireType)
 			}
 			var msglen int
 			for shift := uint(0); ; shift += 7 {
@@ -539,16 +539,16 @@ func (m *Params) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.MinHourlyPrices = append(m.MinHourlyPrices, types.Coin{})
-			if err := m.MinHourlyPrices[len(m.MinHourlyPrices)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+			m.HourlyMinPrices = append(m.HourlyMinPrices, types.Coin{})
+			if err := m.HourlyMinPrices[len(m.HourlyMinPrices)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex
 		case 7:
 			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field MaxLeaseHours", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field LeaseMaxGigabytes", wireType)
 			}
-			m.MaxLeaseHours = 0
+			m.LeaseMaxGigabytes = 0
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowParams
@@ -558,16 +558,16 @@ func (m *Params) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				m.MaxLeaseHours |= int64(b&0x7F) << shift
+				m.LeaseMaxGigabytes |= int64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
 		case 8:
 			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field MinLeaseHours", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field LeaseMinGigabytes", wireType)
 			}
-			m.MinLeaseHours = 0
+			m.LeaseMinGigabytes = 0
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowParams
@@ -577,16 +577,16 @@ func (m *Params) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				m.MinLeaseHours |= int64(b&0x7F) << shift
+				m.LeaseMinGigabytes |= int64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
 		case 9:
 			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field MaxLeaseGigabytes", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field LeaseMaxHours", wireType)
 			}
-			m.MaxLeaseGigabytes = 0
+			m.LeaseMaxHours = 0
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowParams
@@ -596,16 +596,16 @@ func (m *Params) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				m.MaxLeaseGigabytes |= int64(b&0x7F) << shift
+				m.LeaseMaxHours |= int64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
 		case 10:
 			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field MinLeaseGigabytes", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field LeaseMinHours", wireType)
 			}
-			m.MinLeaseGigabytes = 0
+			m.LeaseMinHours = 0
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowParams
@@ -615,7 +615,7 @@ func (m *Params) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				m.MinLeaseGigabytes |= int64(b&0x7F) << shift
+				m.LeaseMinHours |= int64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}

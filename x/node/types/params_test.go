@@ -11,14 +11,14 @@ func TestParams_Validate(t *testing.T) {
 	type fields struct {
 		Deposit           sdk.Coin
 		ExpiryDuration    time.Duration
-		MaxGigabytePrices sdk.Coins
-		MinGigabytePrices sdk.Coins
-		MaxHourlyPrices   sdk.Coins
-		MinHourlyPrices   sdk.Coins
-		MaxLeaseHours     int64
-		MinLeaseHours     int64
-		MaxLeaseGigabytes int64
-		MinLeaseGigabytes int64
+		GigabyteMaxPrices sdk.Coins
+		GigabyteMinPrices sdk.Coins
+		HourlyMaxPrices   sdk.Coins
+		HourlyMinPrices   sdk.Coins
+		LeaseMaxGigabytes int64
+		LeaseMinGigabytes int64
+		LeaseMaxHours     int64
+		LeaseMinHours     int64
 		RevenueShare      sdk.Dec
 	}
 	tests := []struct {
@@ -103,419 +103,419 @@ func TestParams_Validate(t *testing.T) {
 			false,
 		},
 		{
-			"max_gigabyte_prices nil",
+			"gigabyte_max_prices nil",
 			fields{
 				Deposit:           sdk.Coin{Denom: "one", Amount: sdk.NewInt(1000)},
 				ExpiryDuration:    1000,
-				MaxGigabytePrices: nil,
+				GigabyteMaxPrices: nil,
 				RevenueShare:      sdk.NewDecWithPrec(1, 0),
 			},
 			false,
 		},
 		{
-			"max_gigabyte_prices empty",
+			"gigabyte_max_prices empty",
 			fields{
 				Deposit:           sdk.Coin{Denom: "one", Amount: sdk.NewInt(1000)},
 				ExpiryDuration:    1000,
-				MaxGigabytePrices: sdk.Coins{},
+				GigabyteMaxPrices: sdk.Coins{},
 				RevenueShare:      sdk.NewDecWithPrec(1, 0),
 			},
 			false,
 		},
 		{
-			"max_gigabyte_prices empty denom",
+			"gigabyte_max_prices empty denom",
 			fields{
 				Deposit:           sdk.Coin{Denom: "one", Amount: sdk.NewInt(1000)},
 				ExpiryDuration:    1000,
-				MaxGigabytePrices: sdk.Coins{sdk.Coin{Denom: "", Amount: sdk.NewInt(1000)}},
+				GigabyteMaxPrices: sdk.Coins{sdk.Coin{Denom: "", Amount: sdk.NewInt(1000)}},
 			},
 			true,
 		},
 		{
-			"max_gigabyte_prices invalid denom",
+			"gigabyte_max_prices invalid denom",
 			fields{
 				Deposit:           sdk.Coin{Denom: "one", Amount: sdk.NewInt(1000)},
 				ExpiryDuration:    1000,
-				MaxGigabytePrices: sdk.Coins{sdk.Coin{Denom: "o", Amount: sdk.NewInt(1000)}},
+				GigabyteMaxPrices: sdk.Coins{sdk.Coin{Denom: "o", Amount: sdk.NewInt(1000)}},
 			},
 			true,
 		},
 		{
-			"max_gigabyte_prices empty amount",
+			"gigabyte_max_prices empty amount",
 			fields{
 				Deposit:           sdk.Coin{Denom: "one", Amount: sdk.NewInt(1000)},
 				ExpiryDuration:    1000,
-				MaxGigabytePrices: sdk.Coins{sdk.Coin{Denom: "one", Amount: sdk.Int{}}},
+				GigabyteMaxPrices: sdk.Coins{sdk.Coin{Denom: "one", Amount: sdk.Int{}}},
 			},
 			true,
 		},
 		{
-			"max_gigabyte_prices negative amount",
+			"gigabyte_max_prices negative amount",
 			fields{
 				Deposit:           sdk.Coin{Denom: "one", Amount: sdk.NewInt(1000)},
 				ExpiryDuration:    1000,
-				MaxGigabytePrices: sdk.Coins{sdk.Coin{Denom: "one", Amount: sdk.NewInt(-1000)}},
+				GigabyteMaxPrices: sdk.Coins{sdk.Coin{Denom: "one", Amount: sdk.NewInt(-1000)}},
 			},
 			true,
 		},
 		{
-			"max_gigabyte_prices zero amount",
+			"gigabyte_max_prices zero amount",
 			fields{
 				Deposit:           sdk.Coin{Denom: "one", Amount: sdk.NewInt(1000)},
 				ExpiryDuration:    1000,
-				MaxGigabytePrices: sdk.Coins{sdk.Coin{Denom: "one", Amount: sdk.NewInt(0)}},
+				GigabyteMaxPrices: sdk.Coins{sdk.Coin{Denom: "one", Amount: sdk.NewInt(0)}},
 			},
 			true,
 		},
 		{
-			"max_gigabyte_prices positive amount",
+			"gigabyte_max_prices positive amount",
 			fields{
 				Deposit:           sdk.Coin{Denom: "one", Amount: sdk.NewInt(1000)},
 				ExpiryDuration:    1000,
-				MaxGigabytePrices: sdk.Coins{sdk.Coin{Denom: "one", Amount: sdk.NewInt(1000)}},
+				GigabyteMaxPrices: sdk.Coins{sdk.Coin{Denom: "one", Amount: sdk.NewInt(1000)}},
 				RevenueShare:      sdk.NewDecWithPrec(1, 0),
 			},
 			false,
 		},
 		{
-			"min_gigabyte_prices nil",
+			"gigabyte_min_prices nil",
 			fields{
 				Deposit:           sdk.Coin{Denom: "one", Amount: sdk.NewInt(1000)},
 				ExpiryDuration:    1000,
-				MinGigabytePrices: nil,
+				GigabyteMinPrices: nil,
 				RevenueShare:      sdk.NewDecWithPrec(1, 0),
 			},
 			false,
 		},
 		{
-			"min_gigabyte_prices empty",
+			"gigabyte_min_prices empty",
 			fields{
 				Deposit:           sdk.Coin{Denom: "one", Amount: sdk.NewInt(1000)},
 				ExpiryDuration:    1000,
-				MinGigabytePrices: sdk.Coins{},
+				GigabyteMinPrices: sdk.Coins{},
 				RevenueShare:      sdk.NewDecWithPrec(1, 0),
 			},
 			false,
 		},
 		{
-			"min_gigabyte_prices empty denom",
+			"gigabyte_min_prices empty denom",
 			fields{
 				Deposit:           sdk.Coin{Denom: "one", Amount: sdk.NewInt(1000)},
 				ExpiryDuration:    1000,
-				MinGigabytePrices: sdk.Coins{sdk.Coin{Denom: "", Amount: sdk.NewInt(1000)}},
+				GigabyteMinPrices: sdk.Coins{sdk.Coin{Denom: "", Amount: sdk.NewInt(1000)}},
 			},
 			true,
 		},
 		{
-			"min_gigabyte_prices invalid denom",
+			"gigabyte_min_prices invalid denom",
 			fields{
 				Deposit:           sdk.Coin{Denom: "one", Amount: sdk.NewInt(1000)},
 				ExpiryDuration:    1000,
-				MinGigabytePrices: sdk.Coins{sdk.Coin{Denom: "o", Amount: sdk.NewInt(1000)}},
+				GigabyteMinPrices: sdk.Coins{sdk.Coin{Denom: "o", Amount: sdk.NewInt(1000)}},
 			},
 			true,
 		},
 		{
-			"min_gigabyte_prices empty amount",
+			"gigabyte_min_prices empty amount",
 			fields{
 				Deposit:           sdk.Coin{Denom: "one", Amount: sdk.NewInt(1000)},
 				ExpiryDuration:    1000,
-				MinGigabytePrices: sdk.Coins{sdk.Coin{Denom: "one", Amount: sdk.Int{}}},
+				GigabyteMinPrices: sdk.Coins{sdk.Coin{Denom: "one", Amount: sdk.Int{}}},
 			},
 			true,
 		},
 		{
-			"min_gigabyte_prices negative amount",
+			"gigabyte_min_prices negative amount",
 			fields{
 				Deposit:           sdk.Coin{Denom: "one", Amount: sdk.NewInt(1000)},
 				ExpiryDuration:    1000,
-				MinGigabytePrices: sdk.Coins{sdk.Coin{Denom: "one", Amount: sdk.NewInt(-1000)}},
+				GigabyteMinPrices: sdk.Coins{sdk.Coin{Denom: "one", Amount: sdk.NewInt(-1000)}},
 			},
 			true,
 		},
 		{
-			"min_gigabyte_prices zero amount",
+			"gigabyte_min_prices zero amount",
 			fields{
 				Deposit:           sdk.Coin{Denom: "one", Amount: sdk.NewInt(1000)},
 				ExpiryDuration:    1000,
-				MinGigabytePrices: sdk.Coins{sdk.Coin{Denom: "one", Amount: sdk.NewInt(0)}},
+				GigabyteMinPrices: sdk.Coins{sdk.Coin{Denom: "one", Amount: sdk.NewInt(0)}},
 			},
 			true,
 		},
 		{
-			"min_gigabyte_prices positive amount",
+			"gigabyte_min_prices positive amount",
 			fields{
 				Deposit:           sdk.Coin{Denom: "one", Amount: sdk.NewInt(1000)},
 				ExpiryDuration:    1000,
-				MinGigabytePrices: sdk.Coins{sdk.Coin{Denom: "one", Amount: sdk.NewInt(1000)}},
+				GigabyteMinPrices: sdk.Coins{sdk.Coin{Denom: "one", Amount: sdk.NewInt(1000)}},
 				RevenueShare:      sdk.NewDecWithPrec(1, 0),
 			},
 			false,
 		},
 		{
-			"max_hourly_prices nil",
+			"hourly_max_prices nil",
 			fields{
 				Deposit:         sdk.Coin{Denom: "one", Amount: sdk.NewInt(1000)},
 				ExpiryDuration:  1000,
-				MaxHourlyPrices: nil,
+				HourlyMaxPrices: nil,
 				RevenueShare:    sdk.NewDecWithPrec(1, 0),
 			},
 			false,
 		},
 		{
-			"max_hourly_prices empty",
+			"hourly_max_prices empty",
 			fields{
 				Deposit:         sdk.Coin{Denom: "one", Amount: sdk.NewInt(1000)},
 				ExpiryDuration:  1000,
-				MaxHourlyPrices: sdk.Coins{},
+				HourlyMaxPrices: sdk.Coins{},
 				RevenueShare:    sdk.NewDecWithPrec(1, 0),
 			},
 			false,
 		},
 		{
-			"max_hourly_prices empty denom",
+			"hourly_max_prices empty denom",
 			fields{
 				Deposit:         sdk.Coin{Denom: "one", Amount: sdk.NewInt(1000)},
 				ExpiryDuration:  1000,
-				MaxHourlyPrices: sdk.Coins{sdk.Coin{Denom: "", Amount: sdk.NewInt(1000)}},
+				HourlyMaxPrices: sdk.Coins{sdk.Coin{Denom: "", Amount: sdk.NewInt(1000)}},
 			},
 			true,
 		},
 		{
-			"max_hourly_prices invalid denom",
+			"hourly_max_prices invalid denom",
 			fields{
 				Deposit:         sdk.Coin{Denom: "one", Amount: sdk.NewInt(1000)},
 				ExpiryDuration:  1000,
-				MaxHourlyPrices: sdk.Coins{sdk.Coin{Denom: "o", Amount: sdk.NewInt(1000)}},
+				HourlyMaxPrices: sdk.Coins{sdk.Coin{Denom: "o", Amount: sdk.NewInt(1000)}},
 			},
 			true,
 		},
 		{
-			"max_hourly_prices empty amount",
+			"hourly_max_prices empty amount",
 			fields{
 				Deposit:         sdk.Coin{Denom: "one", Amount: sdk.NewInt(1000)},
 				ExpiryDuration:  1000,
-				MaxHourlyPrices: sdk.Coins{sdk.Coin{Denom: "one", Amount: sdk.Int{}}},
+				HourlyMaxPrices: sdk.Coins{sdk.Coin{Denom: "one", Amount: sdk.Int{}}},
 			},
 			true,
 		},
 		{
-			"max_hourly_prices negative amount",
+			"hourly_max_prices negative amount",
 			fields{
 				Deposit:         sdk.Coin{Denom: "one", Amount: sdk.NewInt(1000)},
 				ExpiryDuration:  1000,
-				MaxHourlyPrices: sdk.Coins{sdk.Coin{Denom: "one", Amount: sdk.NewInt(-1000)}},
+				HourlyMaxPrices: sdk.Coins{sdk.Coin{Denom: "one", Amount: sdk.NewInt(-1000)}},
 			},
 			true,
 		},
 		{
-			"max_hourly_prices zero amount",
+			"hourly_max_prices zero amount",
 			fields{
 				Deposit:         sdk.Coin{Denom: "one", Amount: sdk.NewInt(1000)},
 				ExpiryDuration:  1000,
-				MaxHourlyPrices: sdk.Coins{sdk.Coin{Denom: "one", Amount: sdk.NewInt(0)}},
+				HourlyMaxPrices: sdk.Coins{sdk.Coin{Denom: "one", Amount: sdk.NewInt(0)}},
 			},
 			true,
 		},
 		{
-			"max_hourly_prices positive amount",
+			"hourly_max_prices positive amount",
 			fields{
 				Deposit:         sdk.Coin{Denom: "one", Amount: sdk.NewInt(1000)},
 				ExpiryDuration:  1000,
-				MaxHourlyPrices: sdk.Coins{sdk.Coin{Denom: "one", Amount: sdk.NewInt(1000)}},
+				HourlyMaxPrices: sdk.Coins{sdk.Coin{Denom: "one", Amount: sdk.NewInt(1000)}},
 				RevenueShare:    sdk.NewDecWithPrec(1, 0),
 			},
 			false,
 		},
 		{
-			"min_hourly_prices nil",
+			"hourly_min_prices nil",
 			fields{
 				Deposit:         sdk.Coin{Denom: "one", Amount: sdk.NewInt(1000)},
 				ExpiryDuration:  1000,
-				MinHourlyPrices: nil,
+				HourlyMinPrices: nil,
 				RevenueShare:    sdk.NewDecWithPrec(1, 0),
 			},
 			false,
 		},
 		{
-			"min_hourly_prices empty",
+			"hourly_min_prices empty",
 			fields{
 				Deposit:         sdk.Coin{Denom: "one", Amount: sdk.NewInt(1000)},
 				ExpiryDuration:  1000,
-				MinHourlyPrices: sdk.Coins{},
+				HourlyMinPrices: sdk.Coins{},
 				RevenueShare:    sdk.NewDecWithPrec(1, 0),
 			},
 			false,
 		},
 		{
-			"min_hourly_prices empty denom",
+			"hourly_min_prices empty denom",
 			fields{
 				Deposit:         sdk.Coin{Denom: "one", Amount: sdk.NewInt(1000)},
 				ExpiryDuration:  1000,
-				MinHourlyPrices: sdk.Coins{sdk.Coin{Denom: "", Amount: sdk.NewInt(1000)}},
+				HourlyMinPrices: sdk.Coins{sdk.Coin{Denom: "", Amount: sdk.NewInt(1000)}},
 			},
 			true,
 		},
 		{
-			"min_hourly_prices invalid denom",
+			"hourly_min_prices invalid denom",
 			fields{
 				Deposit:         sdk.Coin{Denom: "one", Amount: sdk.NewInt(1000)},
 				ExpiryDuration:  1000,
-				MinHourlyPrices: sdk.Coins{sdk.Coin{Denom: "o", Amount: sdk.NewInt(1000)}},
+				HourlyMinPrices: sdk.Coins{sdk.Coin{Denom: "o", Amount: sdk.NewInt(1000)}},
 			},
 			true,
 		},
 		{
-			"min_hourly_prices empty amount",
+			"hourly_min_prices empty amount",
 			fields{
 				Deposit:         sdk.Coin{Denom: "one", Amount: sdk.NewInt(1000)},
 				ExpiryDuration:  1000,
-				MinHourlyPrices: sdk.Coins{sdk.Coin{Denom: "one", Amount: sdk.Int{}}},
+				HourlyMinPrices: sdk.Coins{sdk.Coin{Denom: "one", Amount: sdk.Int{}}},
 			},
 			true,
 		},
 		{
-			"min_hourly_prices negative amount",
+			"hourly_min_prices negative amount",
 			fields{
 				Deposit:         sdk.Coin{Denom: "one", Amount: sdk.NewInt(1000)},
 				ExpiryDuration:  1000,
-				MinHourlyPrices: sdk.Coins{sdk.Coin{Denom: "one", Amount: sdk.NewInt(-1000)}},
+				HourlyMinPrices: sdk.Coins{sdk.Coin{Denom: "one", Amount: sdk.NewInt(-1000)}},
 			},
 			true,
 		},
 		{
-			"min_hourly_prices zero amount",
+			"hourly_min_prices zero amount",
 			fields{
 				Deposit:         sdk.Coin{Denom: "one", Amount: sdk.NewInt(1000)},
 				ExpiryDuration:  1000,
-				MinHourlyPrices: sdk.Coins{sdk.Coin{Denom: "one", Amount: sdk.NewInt(0)}},
+				HourlyMinPrices: sdk.Coins{sdk.Coin{Denom: "one", Amount: sdk.NewInt(0)}},
 			},
 			true,
 		},
 		{
-			"min_hourly_prices positive amount",
+			"hourly_min_prices positive amount",
 			fields{
 				Deposit:         sdk.Coin{Denom: "one", Amount: sdk.NewInt(1000)},
 				ExpiryDuration:  1000,
-				MinHourlyPrices: sdk.Coins{sdk.Coin{Denom: "one", Amount: sdk.NewInt(1000)}},
+				HourlyMinPrices: sdk.Coins{sdk.Coin{Denom: "one", Amount: sdk.NewInt(1000)}},
 				RevenueShare:    sdk.NewDecWithPrec(1, 0),
 			},
 			false,
 		},
 		{
-			"max_lease_hours negative",
+			"lease_max_gigabytes negative",
+			fields{
+				Deposit:           sdk.Coin{Denom: "one", Amount: sdk.NewInt(1000)},
+				ExpiryDuration:    1000,
+				LeaseMaxGigabytes: -1000,
+			},
+			true,
+		},
+		{
+			"lease_max_gigabytes zero",
+			fields{
+				Deposit:           sdk.Coin{Denom: "one", Amount: sdk.NewInt(1000)},
+				ExpiryDuration:    1000,
+				LeaseMaxGigabytes: 0,
+				RevenueShare:      sdk.NewDecWithPrec(1, 0),
+			},
+			false,
+		},
+		{
+			"lease_max_gigabytes positive",
+			fields{
+				Deposit:           sdk.Coin{Denom: "one", Amount: sdk.NewInt(1000)},
+				ExpiryDuration:    1000,
+				LeaseMaxGigabytes: 1000,
+				RevenueShare:      sdk.NewDecWithPrec(1, 0),
+			},
+			false,
+		},
+		{
+			"lease_min_gigabytes negative",
+			fields{
+				Deposit:           sdk.Coin{Denom: "one", Amount: sdk.NewInt(1000)},
+				ExpiryDuration:    1000,
+				LeaseMinGigabytes: -1000,
+				RevenueShare:      sdk.NewDecWithPrec(1, 0),
+			},
+			true,
+		},
+		{
+			"lease_min_gigabytes zero",
+			fields{
+				Deposit:           sdk.Coin{Denom: "one", Amount: sdk.NewInt(1000)},
+				ExpiryDuration:    1000,
+				LeaseMinGigabytes: 0,
+				RevenueShare:      sdk.NewDecWithPrec(1, 0),
+			},
+			false,
+		},
+		{
+			"lease_min_gigabytes positive",
+			fields{
+				Deposit:           sdk.Coin{Denom: "one", Amount: sdk.NewInt(1000)},
+				ExpiryDuration:    1000,
+				LeaseMinGigabytes: 1000,
+				RevenueShare:      sdk.NewDecWithPrec(1, 0),
+			},
+			false,
+		},
+		{
+			"lease_max_hours negative",
 			fields{
 				Deposit:        sdk.Coin{Denom: "one", Amount: sdk.NewInt(1000)},
 				ExpiryDuration: 1000,
-				MaxLeaseHours:  -1000,
+				LeaseMaxHours:  -1000,
 			},
 			true,
 		},
 		{
-			"max_lease_hours zero",
+			"lease_max_hours zero",
 			fields{
 				Deposit:        sdk.Coin{Denom: "one", Amount: sdk.NewInt(1000)},
 				ExpiryDuration: 1000,
-				MaxLeaseHours:  0,
+				LeaseMaxHours:  0,
 				RevenueShare:   sdk.NewDecWithPrec(1, 0),
 			},
 			false,
 		},
 		{
-			"max_lease_hours positive",
+			"lease_max_hours positive",
 			fields{
 				Deposit:        sdk.Coin{Denom: "one", Amount: sdk.NewInt(1000)},
 				ExpiryDuration: 1000,
-				MaxLeaseHours:  1000,
+				LeaseMaxHours:  1000,
 				RevenueShare:   sdk.NewDecWithPrec(1, 0),
 			},
 			false,
 		},
 		{
-			"min_lease_hours negative",
+			"lease_min_hours negative",
 			fields{
 				Deposit:        sdk.Coin{Denom: "one", Amount: sdk.NewInt(1000)},
 				ExpiryDuration: 1000,
-				MinLeaseHours:  -1000,
+				LeaseMinHours:  -1000,
 			},
 			true,
 		},
 		{
-			"min_lease_hours zero",
+			"lease_min_hours zero",
 			fields{
 				Deposit:        sdk.Coin{Denom: "one", Amount: sdk.NewInt(1000)},
 				ExpiryDuration: 1000,
-				MinLeaseHours:  0,
+				LeaseMinHours:  0,
 				RevenueShare:   sdk.NewDecWithPrec(1, 0),
 			},
 			false,
 		},
 		{
-			"min_lease_hours positive",
+			"lease_min_hours positive",
 			fields{
 				Deposit:        sdk.Coin{Denom: "one", Amount: sdk.NewInt(1000)},
 				ExpiryDuration: 1000,
-				MinLeaseHours:  1000,
+				LeaseMinHours:  1000,
 				RevenueShare:   sdk.NewDecWithPrec(1, 0),
-			},
-			false,
-		},
-		{
-			"max_lease_gigabytes negative",
-			fields{
-				Deposit:           sdk.Coin{Denom: "one", Amount: sdk.NewInt(1000)},
-				ExpiryDuration:    1000,
-				MaxLeaseGigabytes: -1000,
-			},
-			true,
-		},
-		{
-			"max_lease_gigabytes zero",
-			fields{
-				Deposit:           sdk.Coin{Denom: "one", Amount: sdk.NewInt(1000)},
-				ExpiryDuration:    1000,
-				MaxLeaseGigabytes: 0,
-				RevenueShare:      sdk.NewDecWithPrec(1, 0),
-			},
-			false,
-		},
-		{
-			"max_lease_gigabytes positive",
-			fields{
-				Deposit:           sdk.Coin{Denom: "one", Amount: sdk.NewInt(1000)},
-				ExpiryDuration:    1000,
-				MaxLeaseGigabytes: 1000,
-				RevenueShare:      sdk.NewDecWithPrec(1, 0),
-			},
-			false,
-		},
-		{
-			"min_lease_gigabytes negative",
-			fields{
-				Deposit:           sdk.Coin{Denom: "one", Amount: sdk.NewInt(1000)},
-				ExpiryDuration:    1000,
-				MinLeaseGigabytes: -1000,
-				RevenueShare:      sdk.NewDecWithPrec(1, 0),
-			},
-			true,
-		},
-		{
-			"min_lease_gigabytes zero",
-			fields{
-				Deposit:           sdk.Coin{Denom: "one", Amount: sdk.NewInt(1000)},
-				ExpiryDuration:    1000,
-				MinLeaseGigabytes: 0,
-				RevenueShare:      sdk.NewDecWithPrec(1, 0),
-			},
-			false,
-		},
-		{
-			"min_lease_gigabytes positive",
-			fields{
-				Deposit:           sdk.Coin{Denom: "one", Amount: sdk.NewInt(1000)},
-				ExpiryDuration:    1000,
-				MinLeaseGigabytes: 1000,
-				RevenueShare:      sdk.NewDecWithPrec(1, 0),
 			},
 			false,
 		},
@@ -597,14 +597,14 @@ func TestParams_Validate(t *testing.T) {
 			m := &Params{
 				Deposit:           tt.fields.Deposit,
 				ExpiryDuration:    tt.fields.ExpiryDuration,
-				MaxGigabytePrices: tt.fields.MaxGigabytePrices,
-				MinGigabytePrices: tt.fields.MinGigabytePrices,
-				MaxHourlyPrices:   tt.fields.MaxHourlyPrices,
-				MinHourlyPrices:   tt.fields.MinHourlyPrices,
-				MaxLeaseHours:     tt.fields.MaxLeaseHours,
-				MinLeaseHours:     tt.fields.MinLeaseHours,
-				MaxLeaseGigabytes: tt.fields.MaxLeaseGigabytes,
-				MinLeaseGigabytes: tt.fields.MinLeaseGigabytes,
+				GigabyteMaxPrices: tt.fields.GigabyteMaxPrices,
+				GigabyteMinPrices: tt.fields.GigabyteMinPrices,
+				HourlyMaxPrices:   tt.fields.HourlyMaxPrices,
+				HourlyMinPrices:   tt.fields.HourlyMinPrices,
+				LeaseMaxGigabytes: tt.fields.LeaseMaxGigabytes,
+				LeaseMinGigabytes: tt.fields.LeaseMinGigabytes,
+				LeaseMaxHours:     tt.fields.LeaseMaxHours,
+				LeaseMinHours:     tt.fields.LeaseMinHours,
 				RevenueShare:      tt.fields.RevenueShare,
 			}
 			if err := m.Validate(); (err != nil) != tt.wantErr {

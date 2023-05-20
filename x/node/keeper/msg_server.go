@@ -216,14 +216,13 @@ func (k *msgServer) MsgSubscribe(c context.Context, msg *types.MsgSubscribeReque
 			subscription.Deposit.Denom,
 			subscription.Deposit.Amount.QuoRaw(msg.Hours),
 		)
-		lease.DistributionAt = ctx.BlockTime().Add(time.Hour)
+		lease.DistributionAt = ctx.BlockTime().Add(time.Hour) // TODO: take the value from params?
 	}
 
 	k.SetLease(ctx, lease)
 	k.SetLeaseForAccount(ctx, accAddr, lease.ID)
 	k.SetLeaseForNode(ctx, nodeAddr, lease.ID)
-
-	if lease.Duration != 0 {
+	if !lease.DistributionAt.IsZero() {
 		k.SetLeaseForDistributionAt(ctx, lease.DistributionAt, lease.ID)
 	}
 

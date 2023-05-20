@@ -18,43 +18,43 @@ func (k *Keeper) ExpiryDuration(ctx sdk.Context) (v time.Duration) {
 	return
 }
 
-func (k *Keeper) MaxGigabytePrices(ctx sdk.Context) (v sdk.Coins) {
-	k.params.Get(ctx, types.KeyMaxGigabytePrices, &v)
+func (k *Keeper) GigabyteMaxPrices(ctx sdk.Context) (v sdk.Coins) {
+	k.params.Get(ctx, types.KeyGigabyteMaxPrices, &v)
 	return
 }
 
-func (k *Keeper) MinGigabytePrices(ctx sdk.Context) (v sdk.Coins) {
-	k.params.Get(ctx, types.KeyMinGigabytePrices, &v)
+func (k *Keeper) GigabyteMinPrices(ctx sdk.Context) (v sdk.Coins) {
+	k.params.Get(ctx, types.KeyGigabyteMinPrices, &v)
 	return
 }
 
-func (k *Keeper) MaxHourlyPrices(ctx sdk.Context) (v sdk.Coins) {
-	k.params.Get(ctx, types.KeyMaxHourlyPrices, &v)
+func (k *Keeper) HourlyMaxPrices(ctx sdk.Context) (v sdk.Coins) {
+	k.params.Get(ctx, types.KeyHourlyMaxPrices, &v)
 	return
 }
 
-func (k *Keeper) MinHourlyPrices(ctx sdk.Context) (v sdk.Coins) {
-	k.params.Get(ctx, types.KeyMinHourlyPrices, &v)
+func (k *Keeper) HourlyMinPrices(ctx sdk.Context) (v sdk.Coins) {
+	k.params.Get(ctx, types.KeyHourlyMinPrices, &v)
 	return
 }
 
-func (k *Keeper) MaxLeaseHours(ctx sdk.Context) (v int64) {
-	k.params.Get(ctx, types.KeyMaxLeaseHours, &v)
+func (k *Keeper) LeaseMaxGigabytes(ctx sdk.Context) (v int64) {
+	k.params.Get(ctx, types.KeyLeaseMaxGigabytes, &v)
 	return
 }
 
-func (k *Keeper) MinLeaseHours(ctx sdk.Context) (v int64) {
-	k.params.Get(ctx, types.KeyMinLeaseHours, &v)
+func (k *Keeper) LeaseMinGigabytes(ctx sdk.Context) (v int64) {
+	k.params.Get(ctx, types.KeyLeaseMinGigabytes, &v)
 	return
 }
 
-func (k *Keeper) MaxLeaseGigabytes(ctx sdk.Context) (v int64) {
-	k.params.Get(ctx, types.KeyMaxLeaseGigabytes, &v)
+func (k *Keeper) LeaseMaxHours(ctx sdk.Context) (v int64) {
+	k.params.Get(ctx, types.KeyLeaseMaxHours, &v)
 	return
 }
 
-func (k *Keeper) MinLeaseGigabytes(ctx sdk.Context) (v int64) {
-	k.params.Get(ctx, types.KeyMinLeaseGigabytes, &v)
+func (k *Keeper) LeaseMinHours(ctx sdk.Context) (v int64) {
+	k.params.Get(ctx, types.KeyLeaseMinHours, &v)
 	return
 }
 
@@ -71,20 +71,20 @@ func (k *Keeper) GetParams(ctx sdk.Context) types.Params {
 	return types.NewParams(
 		k.Deposit(ctx),
 		k.ExpiryDuration(ctx),
-		k.MaxGigabytePrices(ctx),
-		k.MinGigabytePrices(ctx),
-		k.MaxHourlyPrices(ctx),
-		k.MinHourlyPrices(ctx),
-		k.MaxLeaseHours(ctx),
-		k.MinLeaseHours(ctx),
-		k.MaxLeaseGigabytes(ctx),
-		k.MinLeaseGigabytes(ctx),
+		k.GigabyteMaxPrices(ctx),
+		k.GigabyteMinPrices(ctx),
+		k.HourlyMaxPrices(ctx),
+		k.HourlyMinPrices(ctx),
+		k.LeaseMaxGigabytes(ctx),
+		k.LeaseMinGigabytes(ctx),
+		k.LeaseMaxHours(ctx),
+		k.LeaseMinHours(ctx),
 		k.RevenueShare(ctx),
 	)
 }
 
 func (k *Keeper) IsValidGigabytePrices(ctx sdk.Context, prices sdk.Coins) bool {
-	maxPrices := k.MaxGigabytePrices(ctx)
+	maxPrices := k.GigabyteMaxPrices(ctx)
 	for _, coin := range maxPrices {
 		amount := prices.AmountOf(coin.Denom)
 		if amount.GT(coin.Amount) {
@@ -92,7 +92,7 @@ func (k *Keeper) IsValidGigabytePrices(ctx sdk.Context, prices sdk.Coins) bool {
 		}
 	}
 
-	minPrices := k.MinGigabytePrices(ctx)
+	minPrices := k.GigabyteMinPrices(ctx)
 	for _, coin := range minPrices {
 		amount := prices.AmountOf(coin.Denom)
 		if amount.LT(coin.Amount) {
@@ -104,7 +104,7 @@ func (k *Keeper) IsValidGigabytePrices(ctx sdk.Context, prices sdk.Coins) bool {
 }
 
 func (k *Keeper) IsValidHourlyPrices(ctx sdk.Context, prices sdk.Coins) bool {
-	maxPrices := k.MaxHourlyPrices(ctx)
+	maxPrices := k.HourlyMaxPrices(ctx)
 	for _, coin := range maxPrices {
 		amount := prices.AmountOf(coin.Denom)
 		if amount.GT(coin.Amount) {
@@ -112,7 +112,7 @@ func (k *Keeper) IsValidHourlyPrices(ctx sdk.Context, prices sdk.Coins) bool {
 		}
 	}
 
-	minPrices := k.MinHourlyPrices(ctx)
+	minPrices := k.HourlyMinPrices(ctx)
 	for _, coin := range minPrices {
 		amount := prices.AmountOf(coin.Denom)
 		if amount.LT(coin.Amount) {
@@ -123,27 +123,13 @@ func (k *Keeper) IsValidHourlyPrices(ctx sdk.Context, prices sdk.Coins) bool {
 	return true
 }
 
-func (k *Keeper) IsValidLeaseHours(ctx sdk.Context, hours int64) bool {
-	maxHours := k.MaxLeaseHours(ctx)
-	if maxHours != 0 && hours > maxHours {
-		return false
-	}
-
-	minHours := k.MinLeaseHours(ctx)
-	if minHours != 0 && hours < minHours {
-		return false
-	}
-
-	return true
-}
-
 func (k *Keeper) IsValidLeaseGigabytes(ctx sdk.Context, gigabytes int64) bool {
-	maxGigabytes := k.MaxLeaseGigabytes(ctx)
+	maxGigabytes := k.LeaseMaxGigabytes(ctx)
 	if maxGigabytes != 0 && gigabytes > maxGigabytes {
 		return false
 	}
 
-	minGigabytes := k.MinLeaseGigabytes(ctx)
+	minGigabytes := k.LeaseMinGigabytes(ctx)
 	if minGigabytes != 0 && gigabytes < minGigabytes {
 		return false
 	}
@@ -151,18 +137,32 @@ func (k *Keeper) IsValidLeaseGigabytes(ctx sdk.Context, gigabytes int64) bool {
 	return true
 }
 
-func (k *Keeper) IsMaxGigabytePricesModified(ctx sdk.Context) bool {
-	return k.params.Modified(ctx, types.KeyMaxGigabytePrices)
+func (k *Keeper) IsValidLeaseHours(ctx sdk.Context, hours int64) bool {
+	maxHours := k.LeaseMaxHours(ctx)
+	if maxHours != 0 && hours > maxHours {
+		return false
+	}
+
+	minHours := k.LeaseMinHours(ctx)
+	if minHours != 0 && hours < minHours {
+		return false
+	}
+
+	return true
 }
 
-func (k *Keeper) IsMinGigabytePricesModified(ctx sdk.Context) bool {
-	return k.params.Modified(ctx, types.KeyMinGigabytePrices)
+func (k *Keeper) IsGigabyteMaxPricesModified(ctx sdk.Context) bool {
+	return k.params.Modified(ctx, types.KeyGigabyteMaxPrices)
 }
 
-func (k *Keeper) IsMaxHourlyPricesModified(ctx sdk.Context) bool {
-	return k.params.Modified(ctx, types.KeyMaxHourlyPrices)
+func (k *Keeper) IsGigabyteMinPricesModified(ctx sdk.Context) bool {
+	return k.params.Modified(ctx, types.KeyGigabyteMinPrices)
 }
 
-func (k *Keeper) IsMinHourlyPricesModified(ctx sdk.Context) bool {
-	return k.params.Modified(ctx, types.KeyMinHourlyPrices)
+func (k *Keeper) IsHourlyMaxPricesModified(ctx sdk.Context) bool {
+	return k.params.Modified(ctx, types.KeyHourlyMaxPrices)
+}
+
+func (k *Keeper) IsHourlyMinPricesModified(ctx sdk.Context) bool {
+	return k.params.Modified(ctx, types.KeyHourlyMinPrices)
 }

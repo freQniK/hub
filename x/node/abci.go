@@ -13,37 +13,37 @@ import (
 
 func EndBlock(ctx sdk.Context, k keeper.Keeper) []abcitypes.ValidatorUpdate {
 	var (
-		maxGigabytePricesModified = k.IsMaxGigabytePricesModified(ctx)
-		minGigabytePricesModified = k.IsMinGigabytePricesModified(ctx)
-		maxHourlyPricesModified   = k.IsMaxHourlyPricesModified(ctx)
-		minHourlyPricesModified   = k.IsMinHourlyPricesModified(ctx)
+		gigabyteMaxPricesModified = k.IsGigabyteMaxPricesModified(ctx)
+		gigabyteMinPricesModified = k.IsGigabyteMinPricesModified(ctx)
+		hourlyMaxPricesModified   = k.IsHourlyMaxPricesModified(ctx)
+		hourlyMinPricesModified   = k.IsHourlyMinPricesModified(ctx)
 	)
 
-	if maxGigabytePricesModified || minGigabytePricesModified || maxHourlyPricesModified || minHourlyPricesModified {
-		maxGigabytePrices := sdk.NewCoins()
-		if maxGigabytePricesModified {
-			maxGigabytePrices = k.MaxGigabytePrices(ctx)
+	if gigabyteMaxPricesModified || gigabyteMinPricesModified || hourlyMaxPricesModified || hourlyMinPricesModified {
+		gigabyteMaxPrices := sdk.NewCoins()
+		if gigabyteMaxPricesModified {
+			gigabyteMaxPrices = k.GigabyteMaxPrices(ctx)
 		}
 
-		minGigabytePrices := sdk.NewCoins()
-		if minGigabytePricesModified {
-			minGigabytePrices = k.MinGigabytePrices(ctx)
+		gigabyteMinPrices := sdk.NewCoins()
+		if gigabyteMinPricesModified {
+			gigabyteMinPrices = k.GigabyteMinPrices(ctx)
 		}
 
-		maxHourlyPrices := sdk.NewCoins()
-		if maxHourlyPricesModified {
-			maxHourlyPrices = k.MaxHourlyPrices(ctx)
+		hourlyMaxPrices := sdk.NewCoins()
+		if hourlyMaxPricesModified {
+			hourlyMaxPrices = k.HourlyMaxPrices(ctx)
 		}
 
-		minHourlyPrices := sdk.NewCoins()
-		if minHourlyPricesModified {
-			minHourlyPrices = k.MinHourlyPrices(ctx)
+		hourlyMinPrices := sdk.NewCoins()
+		if hourlyMinPricesModified {
+			hourlyMinPrices = k.HourlyMinPrices(ctx)
 		}
 
 		k.IterateNodes(ctx, func(_ int, item types.Node) bool {
 			if item.GigabytePrices != nil {
-				if maxGigabytePricesModified {
-					for _, coin := range maxGigabytePrices {
+				if gigabyteMaxPricesModified {
+					for _, coin := range gigabyteMaxPrices {
 						amount := item.GigabytePrices.AmountOf(coin.Denom)
 						if amount.GT(coin.Amount) {
 							item.GigabytePrices = item.GigabytePrices.Sub(
@@ -55,8 +55,8 @@ func EndBlock(ctx sdk.Context, k keeper.Keeper) []abcitypes.ValidatorUpdate {
 					}
 				}
 
-				if minGigabytePricesModified {
-					for _, coin := range minGigabytePrices {
+				if gigabyteMinPricesModified {
+					for _, coin := range gigabyteMinPrices {
 						amount := item.GigabytePrices.AmountOf(coin.Denom)
 						if amount.LT(coin.Amount) {
 							item.GigabytePrices = item.GigabytePrices.Sub(
@@ -70,8 +70,8 @@ func EndBlock(ctx sdk.Context, k keeper.Keeper) []abcitypes.ValidatorUpdate {
 			}
 
 			if item.HourlyPrices != nil {
-				if maxHourlyPricesModified {
-					for _, coin := range maxHourlyPrices {
+				if hourlyMaxPricesModified {
+					for _, coin := range hourlyMaxPrices {
 						amount := item.HourlyPrices.AmountOf(coin.Denom)
 						if amount.GT(coin.Amount) {
 							item.HourlyPrices = item.HourlyPrices.Sub(
@@ -83,8 +83,8 @@ func EndBlock(ctx sdk.Context, k keeper.Keeper) []abcitypes.ValidatorUpdate {
 					}
 				}
 
-				if minHourlyPricesModified {
-					for _, coin := range minHourlyPrices {
+				if hourlyMinPricesModified {
+					for _, coin := range hourlyMinPrices {
 						amount := item.HourlyPrices.AmountOf(coin.Denom)
 						if amount.LT(coin.Amount) {
 							item.HourlyPrices = item.HourlyPrices.Sub(
