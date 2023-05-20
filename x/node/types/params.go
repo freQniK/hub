@@ -9,31 +9,33 @@ import (
 )
 
 var (
-	DefaultDeposit                 = sdk.NewCoin(sdk.DefaultBondDenom, sdk.NewInt(10))
-	DefaultExpiryDuration          = 30 * time.Second
-	DefaultGigabyteMaxPrices       = sdk.NewCoins(sdk.NewCoin(sdk.DefaultBondDenom, sdk.NewInt(100)))
-	DefaultGigabyteMinPrices       = sdk.NewCoins(sdk.NewCoin(sdk.DefaultBondDenom, sdk.NewInt(1)))
-	DefaultHourlyMaxPrices         = sdk.NewCoins(sdk.NewCoin(sdk.DefaultBondDenom, sdk.NewInt(100)))
-	DefaultHourlyMinPrices         = sdk.NewCoins(sdk.NewCoin(sdk.DefaultBondDenom, sdk.NewInt(1)))
-	DefaultLeaseMaxGigabytes int64 = 10
-	DefaultLeaseMinGigabytes int64 = 1
-	DefaultLeaseMaxHours     int64 = 10
-	DefaultLeaseMinHours     int64 = 1
-	DefaultRevenueShare            = sdk.NewDecWithPrec(1, 1)
+	DefaultDeposit                         = sdk.NewCoin(sdk.DefaultBondDenom, sdk.NewInt(10))
+	DefaultExpiryDuration                  = 30 * time.Second
+	DefaultGigabyteMaxPrices               = sdk.NewCoins(sdk.NewCoin(sdk.DefaultBondDenom, sdk.NewInt(100)))
+	DefaultGigabyteMinPrices               = sdk.NewCoins(sdk.NewCoin(sdk.DefaultBondDenom, sdk.NewInt(1)))
+	DefaultHourlyMaxPrices                 = sdk.NewCoins(sdk.NewCoin(sdk.DefaultBondDenom, sdk.NewInt(100)))
+	DefaultHourlyMinPrices                 = sdk.NewCoins(sdk.NewCoin(sdk.DefaultBondDenom, sdk.NewInt(1)))
+	DefaultLeaseMaxGigabytes         int64 = 10
+	DefaultLeaseMinGigabytes         int64 = 1
+	DefaultLeaseMaxHours             int64 = 10
+	DefaultLeaseMinHours             int64 = 1
+	DefaultLeaseDistributionDuration       = 1 * time.Minute
+	DefaultRevenueShare                    = sdk.NewDecWithPrec(1, 1)
 )
 
 var (
-	KeyDeposit           = []byte("Deposit")
-	KeyExpiryDuration    = []byte("ExpiryDuration")
-	KeyGigabyteMaxPrices = []byte("GigabyteMaxPrices")
-	KeyGigabyteMinPrices = []byte("GigabyteMinPrices")
-	KeyHourlyMaxPrices   = []byte("HourlyMaxPrices")
-	KeyHourlyMinPrices   = []byte("HourlyMinPrices")
-	KeyLeaseMaxGigabytes = []byte("LeaseMaxGigabytes")
-	KeyLeaseMinGigabytes = []byte("LeaseMinGigabytes")
-	KeyLeaseMaxHours     = []byte("LeaseMaxHours")
-	KeyLeaseMinHours     = []byte("LeaseMinHours")
-	KeyRevenueShare      = []byte("RevenueShare")
+	KeyDeposit                   = []byte("Deposit")
+	KeyExpiryDuration            = []byte("ExpiryDuration")
+	KeyGigabyteMaxPrices         = []byte("GigabyteMaxPrices")
+	KeyGigabyteMinPrices         = []byte("GigabyteMinPrices")
+	KeyHourlyMaxPrices           = []byte("HourlyMaxPrices")
+	KeyHourlyMinPrices           = []byte("HourlyMinPrices")
+	KeyLeaseMaxGigabytes         = []byte("LeaseMaxGigabytes")
+	KeyLeaseMinGigabytes         = []byte("LeaseMinGigabytes")
+	KeyLeaseMaxHours             = []byte("LeaseMaxHours")
+	KeyLeaseMinHours             = []byte("LeaseMinHours")
+	KeyLeaseDistributionDuration = []byte("LeaseDistributionDuration")
+	KeyRevenueShare              = []byte("RevenueShare")
 )
 
 var (
@@ -69,6 +71,9 @@ func (m *Params) Validate() error {
 		return err
 	}
 	if err := validateLeaseMinHours(m.LeaseMinHours); err != nil {
+		return err
+	}
+	if err := validateLeaseDistributionDuration(m.LeaseDistributionDuration); err != nil {
 		return err
 	}
 	if err := validateRevenueShare(m.RevenueShare); err != nil {
@@ -131,6 +136,11 @@ func (m *Params) ParamSetPairs() params.ParamSetPairs {
 			ValidatorFn: validateLeaseMinHours,
 		},
 		{
+			Key:         KeyLeaseDistributionDuration,
+			Value:       &m.LeaseDistributionDuration,
+			ValidatorFn: validateLeaseDistributionDuration,
+		},
+		{
 			Key:         KeyRevenueShare,
 			Value:       &m.RevenueShare,
 			ValidatorFn: validateRevenueShare,
@@ -141,20 +151,21 @@ func (m *Params) ParamSetPairs() params.ParamSetPairs {
 func NewParams(
 	deposit sdk.Coin, expiryDuration time.Duration, gigabyteMaxPrices, gigabyteMinPrices,
 	hourlyMaxPrices, hourlyMinPrices sdk.Coins, leaseMaxGigabytes, leaseMinGigabytes,
-	leaseMaxHours, leaseMinHours int64, revenueShare sdk.Dec,
+	leaseMaxHours, leaseMinHours int64, leaseDistributionDuration time.Duration, revenueShare sdk.Dec,
 ) Params {
 	return Params{
-		Deposit:           deposit,
-		ExpiryDuration:    expiryDuration,
-		GigabyteMaxPrices: gigabyteMaxPrices,
-		GigabyteMinPrices: gigabyteMinPrices,
-		HourlyMaxPrices:   hourlyMaxPrices,
-		HourlyMinPrices:   hourlyMinPrices,
-		LeaseMaxGigabytes: leaseMaxGigabytes,
-		LeaseMinGigabytes: leaseMinGigabytes,
-		LeaseMaxHours:     leaseMaxHours,
-		LeaseMinHours:     leaseMinHours,
-		RevenueShare:      revenueShare,
+		Deposit:                   deposit,
+		ExpiryDuration:            expiryDuration,
+		GigabyteMaxPrices:         gigabyteMaxPrices,
+		GigabyteMinPrices:         gigabyteMinPrices,
+		HourlyMaxPrices:           hourlyMaxPrices,
+		HourlyMinPrices:           hourlyMinPrices,
+		LeaseMaxGigabytes:         leaseMaxGigabytes,
+		LeaseMinGigabytes:         leaseMinGigabytes,
+		LeaseMaxHours:             leaseMaxHours,
+		LeaseMinHours:             leaseMinHours,
+		LeaseDistributionDuration: leaseDistributionDuration,
+		RevenueShare:              revenueShare,
 	}
 }
 
@@ -170,6 +181,7 @@ func DefaultParams() Params {
 		DefaultLeaseMinGigabytes,
 		DefaultLeaseMaxHours,
 		DefaultLeaseMinHours,
+		DefaultLeaseDistributionDuration,
 		DefaultRevenueShare,
 	)
 }
@@ -336,6 +348,22 @@ func validateLeaseMinHours(v interface{}) error {
 
 	if value < 0 {
 		return fmt.Errorf("lease_min_hours cannot be negative")
+	}
+
+	return nil
+}
+
+func validateLeaseDistributionDuration(v interface{}) error {
+	value, ok := v.(time.Duration)
+	if !ok {
+		return fmt.Errorf("invalid parameter type %T", v)
+	}
+
+	if value < 0 {
+		return fmt.Errorf("lease_distribution_duration cannot be negative")
+	}
+	if value == 0 {
+		return fmt.Errorf("lease_distribution_duration cannot be zero")
 	}
 
 	return nil

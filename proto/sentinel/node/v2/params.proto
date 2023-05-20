@@ -29,11 +29,13 @@ message Params {
     (gogoproto.nullable)     = false,
     (gogoproto.castrepeated) = "github.com/cosmos/cosmos-sdk/types.Coins"
   ];
-  int64 lease_max_gigabytes = 7;
-  int64 lease_min_gigabytes = 8;
-  int64 lease_max_hours     = 9;
-  int64 lease_min_hours     = 10;
-  string revenue_share      = 11 [
+  int64 lease_max_gigabytes                            = 7;
+  int64 lease_min_gigabytes                            = 8;
+  int64 lease_max_hours                                = 9;
+  int64 lease_min_hours                                = 10;
+  google.protobuf.Duration lease_distribution_duration = 11
+      [ (gogoproto.nullable) = false, (gogoproto.stdduration) = true ];
+  string revenue_share = 12 [
     (gogoproto.customtype) = "github.com/cosmos/cosmos-sdk/types.Dec",
     (gogoproto.nullable)   = false
   ];

@@ -58,6 +58,11 @@ func (k *Keeper) LeaseMinHours(ctx sdk.Context) (v int64) {
 	return
 }
 
+func (k *Keeper) LeaseDistributionDuration(ctx sdk.Context) (v time.Duration) {
+	k.params.Get(ctx, types.KeyLeaseDistributionDuration, &v)
+	return
+}
+
 func (k *Keeper) RevenueShare(ctx sdk.Context) (v sdk.Dec) {
 	k.params.Get(ctx, types.KeyRevenueShare, &v)
 	return
@@ -79,6 +84,7 @@ func (k *Keeper) GetParams(ctx sdk.Context) types.Params {
 		k.LeaseMinGigabytes(ctx),
 		k.LeaseMaxHours(ctx),
 		k.LeaseMinHours(ctx),
+		k.LeaseDistributionDuration(ctx),
 		k.RevenueShare(ctx),
 	)
 }
